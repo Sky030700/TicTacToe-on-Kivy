@@ -1,8 +1,10 @@
 from kivy.app import App
 from kivy.uix.button import Button
 from kivy.properties import ListProperty
+from kivy.uix.label import Label
 from kivy.uix.gridlayout import GridLayout
 from kivy.properties import (ListProperty, NumericProperty)
+from kivy.uix.modalview import ModalView
 
 
 class GridEntry(Button):
@@ -70,12 +72,20 @@ class TicTacToeGrid(GridLayout):
 		# Sums can only be +-3 if one player
 		# filled the whole line
 
+		winner = ''
 		if 3 in sums:
-			print("{} win!".format("O"))
+			winner = '{} win!'.format('O')
 		elif -3 in sums:
-			print("{} win!".format("X"))
+			winner = '{} win!'.format('X')
 		elif 0 not in self.status: #Grid full
-			print("Draw!")
+			winner = 'Draw...Nobody wins!'
+
+		if winner:
+			popup = ModalView(size_hint = (0.75 , 0.5 ))
+			victory_label = Label(text = winner, font_size = 50)
+			popup.add_widget(victory_label)
+			popup.bind(on_dismiss = self.reset)
+			popup.open()
 
 	def reset(self, *args):
 		self.status = [0 for _ in range(9)]
