@@ -1,2 +1,2 @@
 "# TicTacToe-on-Kivy" 
-  "python 3.5 used"
+Python 3.5 + Kivy were used
